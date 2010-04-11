@@ -4,7 +4,7 @@
 cd() {
   # This assumes that fuzzycd.rb is available somewhere in your PATH.
   fuzzycd.rb $*
-  # fuzzycd.rb communicates to its bash wrapper through a temp file, because it uses STDOUT for other purposes.
+  # fuzzycd.rb communicates to this bash wrapper through a temp file, because it uses STDOUT for other purposes.
   output=`cat /tmp/fuzzycd.rb.out`
   `rm /tmp/fuzzycd.rb.out`
   if [ "$output" = "@nomatches" ]; then

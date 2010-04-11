@@ -1,4 +1,13 @@
 #!/usr/bin/env ruby
+# This takes a path argument and generates a list of possible completions using fuzzy matching. For example:
+#   "p" matches "places/" and "suspects/"
+#   "p/h" matches "places/home/" and "suspects/harry/"
+# If there is more than one match, an interactive menu will be shown via STDOUT to select the intended match.
+# This script is intended to be invoked from fuzzycd_bash_wrapper.sh, which collects the output of this script
+# and forwards the chosen path to the original cd command.
+# This script communicates with its parent fuzzycd_bash_wrapper.sh through a file "/tmp/fuzzycd.rb.out"; this
+# is required because this script uses STDOUT to show the interactive menu when necessary.
+
 # Returns a string representing a color-coded menu which presents each match as a choice.
 # This uses flexible width columns, because fixed-width columns turn out to not look so good.
 # Example output: 1.notes.git 2.projects.git
