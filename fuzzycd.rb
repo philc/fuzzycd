@@ -98,21 +98,22 @@ end
 # Communicate with the shell wrapper using a temp file instead of STDOUT, since we want to be able to
 # show our own interactive menu over STDOUT without confusing the shell wrapper with that output.
 @out = File.open("/tmp/fuzzycd.rb.out", "w")
-path = ARGV.join(" ")
+cd_path = ARGV.join(" ")
 
-# When no path is provided, just invoke 'cd' directly without arguments, which usually navigates to ~.
-if path.nil?
+# When no path is provided, just invoke 'cd' directly without arguments.
+if cd_path.nil?
   @out.puts "@passthrough"
   exit
 end
 
 # When the path ends in "/" and for other special-case paths, just let cd handle it directly.
-if path == "." || path == ".." || path == "/" || path.rindex("/") == path.size - 1 || path == ENV["HOME"]
+if cd_path == "." || cd_path == ".." || cd_path == "/" || cd_path == ENV["HOME"] ||
+    cd_path.rindex("/") == cd_path.size - 1
   @out.puts "@passthrough"
   exit
 end
 
-matches = matches_for_path(path)
+matches = matches_for_path(cd_path)
 
 if matches.size == 1
   @out.puts matches.first
