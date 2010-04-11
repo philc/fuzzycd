@@ -1,4 +1,3 @@
-# This overrides the normal bash "cd" command and invokes the fuzzycd command instead.
 # This displaces the normal bash "cd" builtin command. cd needs to be redefined this way because it's not
 # a normal binary, but rather a Bash builtin.
 cd() {

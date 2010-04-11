@@ -5,11 +5,11 @@
 # If there is more than one match, an interactive menu will be shown via STDOUT to select the intended match.
 # This script is intended to be invoked from fuzzycd_bash_wrapper.sh, which collects the output of this script
 # and forwards the chosen path to the original cd command.
-# This script communicates with its parent fuzzycd_bash_wrapper.sh through a file "/tmp/fuzzycd.rb.out"; this
-# is required because this script uses STDOUT to show the interactive menu when necessary.
+# This script communicates with its parent fuzzycd_bash_wrapper.sh through the file "/tmp/fuzzycd.rb.out";
+# this is required because this script uses STDOUT to show the interactive menu when necessary.
 
-# Returns a string representing a color-coded menu which presents each match as a choice.
-# This uses flexible width columns, because fixed-width columns turn out to not look so good.
+# Returns a string representing a color-coded menu which presents a series of options.
+# This uses flexible width columns, because fixed-width columns turned out to not look good.
 # Example output: 1.notes.git 2.projects.git
 def menu_with_options(options)
   columns = `tput cols`.to_i
@@ -47,14 +47,14 @@ def present_menu_with_options(options)
     ctrl_c = "\003"
     return nil if input == ctrl_c
 
-    # We may require two characters for lists with many choices. If the second character is "enter" (10),
+    # We may require two characters with more than 10 choices. If the second character is "enter" (10),
     # ignore it.
     if options.length > 9
       char = STDIN.getc.chr
       input += char unless (char == 10)
     end
 
-    # we require numeric input.
+    # Require numeric input.
     return nil unless /^\d+$/ =~ input
 
     choice = input.to_i
@@ -72,7 +72,7 @@ end
 #   "p" matches "places/" and "suspects/"
 #   "p/h" matches "places/home" and "suspects/harry"
 def matches_for_path(path)
-  # Build up a glob string for each component of the path to make something like: "*p*/*h*".
+  # Build up a glob string for each component of the path to form something like: "*p*/*h*".
   # Avoid adding asterisks around each piece of HOME if the path starts with ~, like: /home/philc/*p*/*h*
   root = ""
   if (path.index(ENV["HOME"]) == 0)
@@ -100,7 +100,7 @@ end
 @out = File.open("/tmp/fuzzycd.rb.out", "w")
 cd_path = ARGV.join(" ")
 
-# When no path is provided, just invoke 'cd' directly without arguments.
+# When no path is provided, just invoke cd directly without arguments.
 if cd_path.nil?
   @out.puts "@passthrough"
   exit
