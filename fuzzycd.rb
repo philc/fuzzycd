@@ -100,15 +100,10 @@ end
 @out = File.open("/tmp/fuzzycd.rb.out", "w")
 cd_path = ARGV.join(" ")
 
-# When no path is provided, just invoke cd directly without arguments.
-if cd_path.nil?
-  @out.puts "@passthrough"
-  exit
-end
-
-# When the path ends in "/" and for other special-case paths, just let cd handle it directly.
-if [".", "/", "-", ENV["HOME"]].include?(cd_path) || cd_path =~ /\.\.(\/\.\.)*/ ||
-    cd_path.rindex("/") == cd_path.size - 1
+# Just invoke cd directly in certain special cases (e.g. when the path is empty, ends in "/" or exactly
+# matches a directory).
+if cd_path.nil? || [".", "/", "-", ENV["HOME"]].include?(cd_path) || cd_path =~ /\.\.(\/\.\.)*/ ||
+    cd_path.rindex("/") == cd_path.size - 1 || File.directory?(cd_path)
   @out.puts "@passthrough"
   exit
 end
