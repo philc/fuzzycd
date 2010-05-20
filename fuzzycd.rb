@@ -107,7 +107,7 @@ if cd_path.nil?
 end
 
 # When the path ends in "/" and for other special-case paths, just let cd handle it directly.
-if cd_path == "." || cd_path =~ /\.\.(\/\.\.)*/ || cd_path == "/" || cd_path == ENV["HOME"] ||
+if [".", "/", "-", ENV["HOME"]].include?(cd_path) || cd_path =~ /\.\.(\/\.\.)*/ ||
     cd_path.rindex("/") == cd_path.size - 1
   @out.puts "@passthrough"
   exit
