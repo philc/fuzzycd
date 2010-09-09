@@ -102,7 +102,7 @@ cd_path = ARGV.join(" ")
 
 # Just invoke cd directly in certain special cases (e.g. when the path is empty, ends in "/" or exactly
 # matches a directory).
-if cd_path.nil? || [".", "/", "-", ENV["HOME"]].include?(cd_path) || cd_path =~ /\.\.(\/\.\.)*/ ||
+if cd_path.nil? || [".", "/", "-", ENV["HOME"]].include?(cd_path) || cd_path =~ /^\.\.(\/\.\.)*$/ ||
     cd_path.rindex("/") == cd_path.size - 1 || File.directory?(cd_path)
   @out.puts "@passthrough"
   exit
