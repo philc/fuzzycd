@@ -9,7 +9,7 @@ cd() {
   if [ "$output" = "@nomatches" ]; then
     echo "No files match \"$*\""
   elif [ "$output" = "@passthrough" ]; then
-    builtin cd $*
+    builtin cd "$*"
   elif [ "$output" != "@exit" ]; then
     builtin cd "$output"
   fi
