@@ -3,11 +3,12 @@
 
 # The "cd" command may have already been redefined by another script (RVM does this, for example):
 if [ x`type -t cd` == "xfunction" ]; then
-  # In this case, we define a new "__cd" function with the same body as the previously defined "cd" function.
-  eval $(type cd | grep -v 'cd is a function' | sed 's/^cd/__cd/' | sed 's/^}/;}/' )
+  # In this case, we define a new "original_cd" function with the same body as the previously defined "cd"
+  # function.
+  eval $(type cd | grep -v 'cd is a function' | sed 's/^cd/original_cd/' | sed 's/^}/;}/' )
 else
   # Otherwise, we just define "__cd" to directly call the builtin.
-  eval "__cd() { builtin cd \$*; }"
+  eval "original_cd() { builtin cd \$*; }"
 fi
 
 cd() {
@@ -19,8 +20,8 @@ cd() {
   if [ "$output" = "@nomatches" ]; then
     echo "No files match \"$*\""
   elif [ "$output" = "@passthrough" ]; then
-    __cd "$*"
+    original_cd "$*"
   elif [ "$output" != "@exit" ]; then
-    __cd "$output"
+    original_cd "$output"
   fi
 }
