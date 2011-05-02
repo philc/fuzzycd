@@ -24,6 +24,8 @@ Modify your ~/.profile (or ~/.bashrc, depending your operating system) and add t
 
 This will effectively wrap the builtin bash cd command with the fuzzy cd command. Enjoy!
 
+*Note*: If you have any other shell plugins which try to redefine the "cd" function (e.g. [rvm](https://rvm.beginrescueend.com/rvm) does this), make sure that the `source ... fuzzycd_bash_wrapper.sh` line comes last in your bash profile. fuzzycd plays nicely with other bash modification plugins, but it should be loaded last.
+
 Improvements
 ============
 If you have any improvements, feel free to send me an email or a pull request.
