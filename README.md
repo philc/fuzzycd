@@ -1,12 +1,14 @@
 Overview
 ========
 fuzzycd enables you to use cd with partial directory names which are fuzzily matched. For example:
+
     $ cd photos/seattle
       => photos/2008-05-28 parasailing in Seattle
     $ cd code/player/playback
       => code/player/player_module_playback
 
 If there is more than one directory that matches your expression, you'll get a menu to choose from.
+
     $ cd photos/christmas
     1.photos/2009-12-23 christmas eve party   2.photos/2009-12-24 christmas service
     3.photos/2009-12-25 christmas Day
